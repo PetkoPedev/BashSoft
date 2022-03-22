@@ -12,6 +12,6 @@
 
         public const string InexistingStudentInDataBase = "The user name for the student you are trying to get does not exist!";
 
-
+        public const string InvalidPath = "The folder/file you are trying to access at the current address, does not exist.";
     }
 }
