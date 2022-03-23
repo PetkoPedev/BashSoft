@@ -52,9 +52,7 @@
         {
             if (isDataInitialized)
             {
-                return true;
-
-                if (studentsByCourse.ContainsKey(courseName))
+                if(studentsByCourse.ContainsKey(courseName))
                 {
                     return true;
                 }
