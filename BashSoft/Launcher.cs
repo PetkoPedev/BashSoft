@@ -10,12 +10,14 @@
 
 // IOManager.CreateDirectoryInCurrentFolder("*2");
 
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
-IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+//IOManager.ChangeCurrentDirectoryRelative("..");
+
+InputReader.StartReadingCommands();
