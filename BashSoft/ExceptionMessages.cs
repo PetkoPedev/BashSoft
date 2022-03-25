@@ -21,5 +21,7 @@
         public const string ForbiddenSymbolsContainedInName = "The given name contains symbols that are not allowed to be used in names of files and folders.";
 
         public const string UnableToGoHigherInPartitionHierarhy = "User is not able to go higher in the folder hierarhy";
+
+        public const string UnableToParseNumber = "The sequence you've written is not a valid number.";
     }
 }
