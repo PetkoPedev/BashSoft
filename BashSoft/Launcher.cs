@@ -3,7 +3,7 @@
 // IOManager.ChangeCurrentDirectoryAbsolute(@"C:\Windows");
 // IOManager.TraverseDirectory(20);
 
-// StudentsRepository.InitializeData();
+// StudentsRepository.InitializeData("data.txt");
 // StudentsRepository.GetAllStudentsFromCourse("C#_Feb_2015");
 
 // Tester.CompareContent(@"C:\My Stuff\Programming\Main-repo\BashSoft\BashSoft\test2.txt", @"C:\My Stuff\Programming\Main-repo\BashSoft\BashSoft\test3.txt");
