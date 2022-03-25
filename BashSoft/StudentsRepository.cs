@@ -1,4 +1,6 @@
-﻿namespace BashSoft
+﻿using System.Text.RegularExpressions;
+
+namespace BashSoft
 {
     public static class StudentsRepository
     {
@@ -24,50 +26,69 @@
             string path = SessionData.currentPath + "\\" + fileName;
             if (File.Exists(path))
             {
+                var pattern = @"([A-Z][a-zA-Z#\+]*_[A-Z][a-z]{2}_\d{4})\s+([A-Za-z]+\d{2}_\d{2,4})\s([\s0-9]+)";
+                Regex regex = new Regex(pattern);
+                
                 string[] allInputLines = File.ReadAllLines(path);
-
                 for (int line = 0; line < allInputLines.Length; line++)
                 {
-                    if (!string.IsNullOrEmpty(allInputLines[line]))
+                    if (!string.IsNullOrEmpty(allInputLines[line]) && regex.IsMatch(allInputLines[line]))
                     {
-                        string[] data = allInputLines[line].Split(' ');
+                        Match currentMatch = regex.Match(allInputLines[line]);
+                        string course = currentMatch.Groups[1].Value;
+                        string student = currentMatch.Groups[2].Value;
+                        int studentScoreOnTask;
+                        bool hasParsedScore = int.TryParse(currentMatch.Groups[3].Value, out studentScoreOnTask);
+
+                        if (hasParsedScore && studentScoreOnTask >= 0 && studentScoreOnTask <= 100)
+                        {
+                            if (!studentsByCourse.ContainsKey(course))
+                            {
+                                studentsByCourse.Add(course, new Dictionary<string, List<int>>());
+                            }
+
+                            if (!studentsByCourse[course].ContainsKey(student))
+                            {
+                                studentsByCourse[course].Add(student, new List<int>());
+                            }
+
+                            studentsByCourse[course][student].Add(studentScoreOnTask);
+                        }
                     }
                 }
+
+                isDataInitialized = true;
+                OutputWriter.WriteMessageOnNewLine("Data read!");
             }
         }
 
-        private static bool IsQueryForCoursePossibe(string courseName)
+        private static bool IsQueryForCoursePossible(string courseName)
         {
             if (isDataInitialized)
             {
-                if(studentsByCourse.ContainsKey(courseName))
+                if (studentsByCourse.ContainsKey(courseName))
                 {
                     return true;
                 }
-                else
-                {
-                    OutputWriter.DisplayException(ExceptionMessages.InexistingCourseInDataBase);
-                }
-            }
-            else
-            {
-                OutputWriter.DisplayException(ExceptionMessages.DataNotInitializedExceptionMessage);
+
+                OutputWriter.DisplayException(ExceptionMessages.InexistingCourseInDataBase);
             }
 
+            OutputWriter.DisplayException(ExceptionMessages.DataNotInitializedExceptionMessage);
             return false;
         }
 
         private static bool IsQueryForStudentPossible(string courseName, string studentUserName)
         {
-            if (IsQueryForCoursePossibe(courseName) && studentsByCourse[courseName].ContainsKey(studentUserName))
+            if (IsQueryForCoursePossible(courseName) && studentsByCourse[courseName].ContainsKey(studentUserName))
             {
                 return true;
             }
             else
             {
                 OutputWriter.DisplayException(ExceptionMessages.InexistingStudentInDataBase);
+                return false;
             }
-            return false;
         }
 
         public static void GetStudentsScoresFromCourse(string courseName, string username)
@@ -80,7 +101,7 @@
 
         public static void GetAllStudentsFromCourse(string courseName)
         {
-            if (IsQueryForCoursePossibe(courseName))
+            if (IsQueryForCoursePossible(courseName))
             {
                 OutputWriter.WriteMessageOnNewLine($"{courseName}");
                 foreach (var studentMarksEntry in studentsByCourse[courseName])
