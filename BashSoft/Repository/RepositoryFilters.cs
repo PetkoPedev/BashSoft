@@ -1,4 +1,7 @@
-﻿namespace BashSoft
+﻿using BashSoft.IO;
+using BashSoft.StaticData;
+
+namespace BashSoft.Repository
 {
     public static class RepositoryFilters
     {
@@ -9,15 +12,15 @@
         {
             if (wantedFilter == "excellent")
             {
-                FilterAndTake(wantedData, ExcelentFilter, studentsTotake);
+                FilterAndTake(wantedData, x => x >= 5, studentsTotake);
             }
             else if(wantedFilter == "average")
             {
-                FilterAndTake(wantedData, AverageFilter, studentsTotake);
+                FilterAndTake(wantedData, x => x < 5 && x >= 3.5, studentsTotake);
             }
             else if(wantedFilter == "poor")
             {
-                FilterAndTake(wantedData, PoorFilter, studentsTotake);
+                FilterAndTake(wantedData, x => x < 3.5, studentsTotake);
             }
             else
             {
@@ -38,42 +41,15 @@
                     break;
                 }
 
-                double averageMark = Average(studentPoints.Value);
+                double averageScore = studentPoints.Value.Average();
+                double percentageOffulfillment = averageScore / 100;
+                double averageMark = percentageOffulfillment * 4 + 2;
                 if (givenFilter(averageMark))
                 {
                     OutputWriter.PrintStudent(studentPoints);
                     counterForPrinted++;
                 }
             }
-        }
-
-        private static bool ExcelentFilter(double mark)
-        {
-            return mark >= 5.0;
-        }
-
-        private static bool AverageFilter(double mark)
-        {
-            return mark < 5.0 && mark >= 3.5;
-        }
-
-        private static bool PoorFilter(double mark)
-        {
-            return mark < 3.5;
-        }
-
-        private static double Average(List<int> scoresOnTasks)
-        {
-            int totalScore = 0;
-            foreach (var score in scoresOnTasks)
-            {
-                totalScore += score;
-            }
-
-            var percentageOfAll = totalScore / (scoresOnTasks.Count * 100);
-            var mark = percentageOfAll * 4 + 2;
-
-            return mark;
         }
     }
 }

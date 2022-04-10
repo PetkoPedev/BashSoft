@@ -1,4 +1,4 @@
-﻿namespace BashSoft
+﻿namespace BashSoft.IO
 {
     public static class OutputWriter
     {

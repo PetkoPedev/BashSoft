@@ -1,6 +1,9 @@
-﻿using System.Diagnostics;
+﻿using BashSoft.Judge;
+using BashSoft.Repository;
+using BashSoft.StaticData;
+using System.Diagnostics;
 
-namespace BashSoft
+namespace BashSoft.IO
 {
     public static class CommandInterpreter
     {
