@@ -3,20 +3,21 @@ using BashSoft.StaticData;
 
 namespace BashSoft.Repository
 {
-    public static class RepositorySorters
+    public class RepositorySorter
     {
-        public static void OrderAndTake(Dictionary<string, List<int>> wantedData, string comparison, int studentsToTake)
+        //public void OrderAndTake(Dictionary<string, List<int>> wantedData, string comparison, int studentsToTake)
+        public void OrderAndTake(Dictionary<string, double> studentsMarks, string comparison, int studentsToTake)
         {
             comparison = comparison.ToLower();
             if (comparison == "ascending")
             {
-                PrintStudents(wantedData.OrderBy(x => x.Value.Sum())
+                PrintStudents(studentsMarks.OrderBy(x => x.Value)
                     .Take(studentsToTake)
                     .ToDictionary(pair => pair.Key, pair => pair.Value));
             }
             else if (comparison == "descending")
             {
-                PrintStudents(wantedData.OrderByDescending(x => x.Value.Sum())
+                PrintStudents(studentsMarks.OrderByDescending(x => x.Value)
                     .Take(studentsToTake)
                     .ToDictionary(pair => pair.Key, pair => pair.Value));
             }
@@ -26,7 +27,7 @@ namespace BashSoft.Repository
             }
         }
 
-        private static void PrintStudents(Dictionary<string, List<int>> studentsSorted)
+        private void PrintStudents(Dictionary<string, double> studentsSorted)
         {
             foreach (var student in studentsSorted)
             {
