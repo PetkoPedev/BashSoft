@@ -1,6 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using BashSoft.IO;
+using BashSoft.StaticData;
+using System.Text.RegularExpressions;
 
-namespace BashSoft
+namespace BashSoft.Repository
 {
     public static class StudentsRepository
     {
