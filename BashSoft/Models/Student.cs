@@ -1,15 +1,13 @@
-﻿using BashSoft.IO;
-using BashSoft.StaticData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BashSoft.Exceptions;
 
 namespace BashSoft.Models
 {
     public class Student
     {
+        private string username;
+        private Dictionary<string, Course> enrolledCourses;
+        private Dictionary<string, double> marksByCourseName;
+
         public Student(string username)
         {
             this.Username = username;
@@ -17,15 +15,45 @@ namespace BashSoft.Models
             this.marksByCourseName = new Dictionary<string, double>();
         }
 
-        public string Username;
-        public Dictionary<string, Course> enrolledCourses;
-        public Dictionary<string, double> marksByCourseName;
+        public string Username 
+        {
+            get
+            {
+                return this.username;
+            }
+
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new NullOrEmptyValueException();
+                }
+
+                this.username = value;
+            } 
+        }
+
+        public IReadOnlyDictionary<string, Course> EnrolledCourses
+        {
+            get
+            {
+                return enrolledCourses;
+            }
+        }
+
+        public IReadOnlyDictionary<string, double> MarksByCourseName
+        {
+            get
+            {
+                return marksByCourseName;
+            }
+        }
 
         public void EnrollInCourse(Course course)
         {
             if (this.enrolledCourses.ContainsKey(course.Name))
             {
-                OutputWriter.DisplayException(String.Format(ExceptionMessages.StudentAlreadyEnrolledInGivenCourse, this.Username, course.Name));
+                throw new StudentAlreadyEnrolledInGivenCourseException(Username, course.Name);
             }
         }
 
@@ -33,14 +61,12 @@ namespace BashSoft.Models
         {
             if (!this.enrolledCourses.ContainsKey(courseName))
             {
-                OutputWriter.DisplayException(ExceptionMessages.NotEnrolledInCourse);
-                return;
+                throw new NotEnrolledInCourseException();
             }
 
             if (scores.Length > Course.NumberOfTasksOnExam)
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidNumberOfScores);
-                return;
+                throw new InvalidNumberOfScoresException();
             }
 
             this.marksByCourseName.Add(courseName, CalculateMark(scores));

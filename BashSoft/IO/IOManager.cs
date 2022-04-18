@@ -1,4 +1,5 @@
-﻿using BashSoft.StaticData;
+﻿using BashSoft.Exceptions;
+using BashSoft.StaticData;
 
 namespace BashSoft.IO
 {
@@ -57,7 +58,7 @@ namespace BashSoft.IO
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    OutputWriter.DisplayException(ExceptionMessages.UnableToGoHigherInPartitionHierarhy);
+                    throw new InvalidPathException();
                 }
             }
             else
@@ -72,8 +73,7 @@ namespace BashSoft.IO
         {
             if (!Directory.Exists(absolutePath))
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
-                return;
+                throw new InvalidPathException();
             }
 
             SessionData.currentPath = absolutePath;
@@ -88,7 +88,7 @@ namespace BashSoft.IO
             }
             catch (ArgumentException)
             {
-                OutputWriter.DisplayException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+                throw new ArgumentException(ExceptionMessages.ForbiddenSymbolsContainedInName);
             }
         }
 

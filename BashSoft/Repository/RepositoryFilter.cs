@@ -1,14 +1,10 @@
-﻿using BashSoft.IO;
-using BashSoft.StaticData;
+﻿using BashSoft.Exceptions;
+using BashSoft.IO;
 
 namespace BashSoft.Repository
 {
     public class RepositoryFilter
     {
-        //public void FilterAndTake(
-        //    Dictionary<string, List<int>> wantedData, 
-        //    string wantedFilter, 
-        //    int studentsTotake)
         public void FilterAndTake(Dictionary<string, double> studentsWithMarks, string wantedFilter, int studentsTotake)
         {
             if (wantedFilter == "excellent")
@@ -25,7 +21,7 @@ namespace BashSoft.Repository
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidStudentFilter);
+                throw new InvalidStudentFilterException();
             }
         }
 
