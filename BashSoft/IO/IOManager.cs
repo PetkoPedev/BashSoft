@@ -40,7 +40,7 @@ namespace BashSoft.IO
                 catch (UnauthorizedAccessException)
                 {
 
-                    OutputWriter.DisplayException(ExceptionMessages.UnauthorizedAccessExceptionMessage);
+                    throw new UnauthorizedAccessException();
                 }
             }
         }
@@ -88,7 +88,7 @@ namespace BashSoft.IO
             }
             catch (ArgumentException)
             {
-                throw new ArgumentException(ExceptionMessages.ForbiddenSymbolsContainedInName);
+                throw new ForbiddenSymbolsContainedInNameException();
             }
         }
 
