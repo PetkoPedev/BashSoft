@@ -1,11 +1,10 @@
-﻿using BashSoft.IO;
-using BashSoft.StaticData;
+﻿using BashSoft.Exceptions;
+using BashSoft.IO;
 
 namespace BashSoft.Repository
 {
     public class RepositorySorter
     {
-        //public void OrderAndTake(Dictionary<string, List<int>> wantedData, string comparison, int studentsToTake)
         public void OrderAndTake(Dictionary<string, double> studentsMarks, string comparison, int studentsToTake)
         {
             comparison = comparison.ToLower();
@@ -23,7 +22,7 @@ namespace BashSoft.Repository
             }
             else
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidComparisonQuery);
+                throw new InvalidComparisonQueryException();
             }
         }
 

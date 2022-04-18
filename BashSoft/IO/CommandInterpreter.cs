@@ -23,6 +23,30 @@ namespace BashSoft.IO
             string[] data = input.Split(' ');
             string command = data[0];
 
+            try
+            {
+                this.ParseCommand(input, data, command);
+            }
+            catch(DirectoryNotFoundException dnfe)
+            {
+                OutputWriter.DisplayException(dnfe.Message);
+            }
+            catch (ArgumentOutOfRangeException aoore)
+            {
+                OutputWriter.DisplayException(aoore.Message);
+            }
+            catch (ArgumentException ae)
+            {
+                OutputWriter.DisplayException(ae.Message);
+            }
+            catch (Exception ex)
+            {
+                OutputWriter.DisplayException(ex.Message);
+            }
+        }
+
+        private void ParseCommand(string input, string[] data, string command)
+        {
             switch (command)
             {
                 case "open":

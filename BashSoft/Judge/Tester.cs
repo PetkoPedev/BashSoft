@@ -1,4 +1,5 @@
-﻿using BashSoft.IO;
+﻿using BashSoft.Exceptions;
+using BashSoft.IO;
 using BashSoft.StaticData;
 
 namespace BashSoft.Judge
@@ -7,12 +8,10 @@ namespace BashSoft.Judge
     {
         public void CompareContent(string userOutputPath, string expectedOutputPath)
         {
-            OutputWriter.WriteMessageOnNewLine("Reading files...");
-
             try
             {
+                OutputWriter.WriteMessageOnNewLine("Reading files...");
                 string mismatchPath = GetMismatchPath(expectedOutputPath);
-
                 string[] actualOutputLines = File.ReadAllLines(userOutputPath);
                 string[] expectedOutputLines = File.ReadAllLines(expectedOutputPath);
 
@@ -24,7 +23,7 @@ namespace BashSoft.Judge
             }
             catch (FileNotFoundException)
             {
-                OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
+                throw new InvalidPathException();
             }
         }
 
@@ -42,9 +41,9 @@ namespace BashSoft.Judge
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    OutputWriter.DisplayException(ExceptionMessages.InvalidPath);
+                    throw new InvalidPathException();
                 }
-                
+
                 return;
             }
 
